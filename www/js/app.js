@@ -1,4 +1,10 @@
-angular.module('pensando', ['ionic', /*'pensando.services',*/ 'pensando.controllers', 'pensando.publicacoes'])
+angular.module('pensando',
+    [
+        'ionic',
+        'ngCordova',
+        'pensando.controllers',
+        'pensando.publicacoes'
+    ])
 
     .run(function ($ionicPlatform) {
         $ionicPlatform.ready(function () {
@@ -7,14 +13,15 @@ angular.module('pensando', ['ionic', /*'pensando.services',*/ 'pensando.controll
             if (window.cordova && window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
                 cordova.plugins.Keyboard.disableScroll(true);
-
             }
+
             if (window.StatusBar) {
                 // org.apache.cordova.statusbar required
                 StatusBar.styleDefault();
             }
         });
     })
+
     .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
             .state('app', {
@@ -51,17 +58,22 @@ angular.module('pensando', ['ionic', /*'pensando.services',*/ 'pensando.controll
                 url: '/publicacoes',
                 views: {
                     'menuContent': {
+                        controller: 'PublicacoesCtrl',
                         templateUrl: 'js/publicacoes/views/publicacoes.html',
-                        controller: 'PublicacaoCtrl'
+                        resolve: {
+                            publicacoes: function (PublicacoesService) {
+                                return PublicacoesService.getPublicacoes();
+                            }
+                        }
                     }
                 }
             })
-            .state('app.single', {
-                url: '/publicacoes/:publicacaoId',
+            .state('app.publicacao', {
+                url: '/publicacoes/:publicacaoID',
                 views: {
                     'menuContent': {
-                        templateUrl: 'js/publicacoes/views/publicacao.html',
-                        controller: 'PublicacaoCtrl'
+                        controller: 'PublicacaoCtrl',
+                        templateUrl: 'js/publicacoes/views/publicacao.html'
                     }
                 }
             });

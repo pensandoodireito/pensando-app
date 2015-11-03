@@ -1,5 +1,7 @@
-<ion-view view-title="Publicação">
-  <ion-content>
-    <h1>Publicação</h1>
-  </ion-content>
+<ion-view view-title="{{publicacao.title}}" ng-controller="PublicacaoCtrl">
+    <ion-content>
+        <h2>{{publicacao.description}}</h2>
+        <button class="button button-dark rounded" ng-click="download()">Visualizar</button>
+        <button class="button button-dark rounded" ng-click="changeDesc()">Change</button>
+    </ion-content>
 </ion-view>
