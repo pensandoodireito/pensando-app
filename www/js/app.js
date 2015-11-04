@@ -73,7 +73,12 @@ angular.module('pensando',
                 views: {
                     'menuContent': {
                         controller: 'PublicacaoCtrl',
-                        templateUrl: 'js/publicacoes/views/publicacao.html'
+                        templateUrl: 'js/publicacoes/views/publicacao.html',
+                        resolve: {
+                            publicacao: function ($stateParams, PublicacoesService) {
+                                return PublicacoesService.getPublicacao($stateParams.publicacaoID);
+                            }
+                        }
                     }
                 }
             });
