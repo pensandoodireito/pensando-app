@@ -4,7 +4,7 @@
 angular.module('pensando.publicacoes')
     .controller('PublicacaoCtrl', function ($scope, $ionicPlatform, $timeout, $cordovaFile,
                                             $cordovaFileTransfer, $cordovaFileOpener2,
-                                            $cordovaProgress, $state, publicacao, $stateParams) {
+                                            $cordovaProgress, $state, publicacao, $ionicLoading, $ionicPopup) {
 
         $scope.publicacao = publicacao;
 
@@ -25,15 +25,24 @@ angular.module('pensando.publicacoes')
 
                 $cordovaFile.checkFile(cordova.file.externalRootDirectory, $scope.filename)
                     .then(function (success) {
-                        alert('arquivo já baixado');
+                        $ionicPopup.alert({
+                            title: 'Arquivo baixado!',
+                            template: 'O arquivo já foi baixado. Utilize os botões abrir ou visualizar'
+                        });
                     }, function (error) {
-                        alert('Iniciando Download');
+                        $ionicLoading.show({
+                            template: 'Carregando publicação...'
+                        });
 
                         $cordovaFileTransfer.download(url, $scope.targetPath, {}, true).then(function (result) {
                             $scope.progress = 100;
-                            alert('Download Concluído');
+                            $ionicLoading.hide();
                         }, function (error) {
-                            alert('Erro ao efetuar download');
+                            $ionicPopup.alert({
+                                title: 'Erro!',
+                                template: 'Ocorreu um erro ao efetuar o download da publicação'
+                            });
+                            $ionicLoading.hide();
                             console.log('Error downloading');
                             console.log(error);
                         }, function (progress) {
