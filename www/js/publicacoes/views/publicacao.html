@@ -1,7 +1,19 @@
-<ion-view view-title="{{publicacao.title}}">
-    <ion-content>
-        <h2>{{publicacao.description}}</h2>
-        <button class="button button-dark rounded" ng-click="download()">Visualizar</button>
-        <button class="button button-dark rounded" ng-click="changeDesc()">Change</button>
+<ion-view view-title="Volume {{publicacao.id}}" class="publicacao">
+    <ion-content class="padding">
+        <div class="publicacao-item">
+            <div class="volume">Volume {{publicacao.id}}</div>
+            <div class="title">{{publicacao.title}}</div>
+            <div class="subtitle">{{publicacao.subtitle}}</div>
+            <div class="date">Data: {{publicacao.date}}</div>
+            <div class="coordenacao">Coordenação: {{publicacao.coordenacao}}</div>
+        </div>
+        <div class="button-bar">
+            <button class="button button-small" ng-click="download()" ng-disabled="progress>0">Download</button>
+            <button class="button button-small" ng-click="FileOpener2()">Abrir</button>
+            <button class="button button-small" ng-click="view()">Visualizar</button>
+        </div>
+        <div class="publicacao-description">
+            {{publicacao.description}}
+        </div>
     </ion-content>
 </ion-view>

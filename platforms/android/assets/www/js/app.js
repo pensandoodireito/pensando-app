@@ -6,7 +6,7 @@ angular.module('pensando',
         'pensando.publicacoes'
     ])
 
-    .run(function ($ionicPlatform) {
+    .run(function ($ionicPlatform, $rootScope, $state, $stateParams) {
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -19,6 +19,14 @@ angular.module('pensando',
                 // org.apache.cordova.statusbar required
                 StatusBar.styleDefault();
             }
+
+            $rootScope.$state = $state;
+            $rootScope.$stateParams = $stateParams;
+
+            //$rootScope.$on('$stateChangeError', console.log.bind(console));
+            //$rootScope.$on('$stateChangeStart', console.log.bind(console));
+            //$rootScope.$on('$stateNotFound', console.log.bind(console));
+            //$rootScope.$on('$stateChangeSuccess', console.log.bind(console));
         });
     })
 
@@ -42,7 +50,7 @@ angular.module('pensando',
                 url: '/noticias',
                 views: {
                     'menuContent': {
-                        templateUrl: 'js/noticias/views/noticia.html'
+                        templateUrl: 'js/noticias/views/noticia.html',
                     }
                 }
             })
@@ -73,11 +81,30 @@ angular.module('pensando',
                 views: {
                     'menuContent': {
                         controller: 'PublicacaoCtrl',
-                        templateUrl: 'js/publicacoes/views/publicacao.html'
+                        templateUrl: 'js/publicacoes/views/publicacao.html',
+                        resolve: {
+                            publicacao: function ($stateParams, PublicacoesService) {
+                                return PublicacoesService.getPublicacao($stateParams.publicacaoID);
+                            }
+                        }
+                    }
+                }
+            })
+            .state('app.pdf', {
+                url: '/publicacoes/pdf/:publicacaoID',
+                params: {
+                    publicacaoID: null,
+                    publicacao: null
+                },
+                views: {
+                    'menuContent': {
+                        templateUrl: 'js/publicacoes/views/pdf.html',
+                        controller: 'PdfCtrl'
                     }
                 }
             });
 
-        // if none of the above states are matched, use this as the fallback
+// if none of the above states are matched, use this as the fallback
         $urlRouterProvider.otherwise('/app/publicacoes');
-    });
+    })
+;

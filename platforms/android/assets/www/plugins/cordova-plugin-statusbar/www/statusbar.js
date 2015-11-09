@@ -17,7 +17,7 @@ cordova.define("cordova-plugin-statusbar.statusbar", function(require, exports, 
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var exec = require('cordova/exec');
 

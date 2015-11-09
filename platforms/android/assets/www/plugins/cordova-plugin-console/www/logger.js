@@ -17,7 +17,7 @@ cordova.define("cordova-plugin-console.logger", function(require, exports, modul
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 //------------------------------------------------------------------------------
 // The logger module exports the following properties/functions:
@@ -42,13 +42,13 @@ cordova.define("cordova-plugin-console.logger", function(require, exports, modul
 
 var logger = exports;
 
-var exec    = require('cordova/exec');
-var utils   = require('cordova/utils');
+var exec = require('cordova/exec');
+var utils = require('cordova/utils');
 
-var UseConsole   = false;
-var UseLogger    = true;
-var Queued       = [];
-var DeviceReady  = false;
+var UseConsole = false;
+var UseLogger = true;
+var Queued = [];
+var DeviceReady = false;
 var CurrentLevel;
 
 var originalConsole = console;
@@ -71,10 +71,10 @@ var Levels = [
  */
 
 var LevelsMap = {};
-for (var i=0; i<Levels.length; i++) {
+for (var i = 0; i < Levels.length; i++) {
     var level = Levels[i];
     LevelsMap[level] = i;
-    logger[level]    = level;
+    logger[level] = level;
 }
 
 CurrentLevel = LevelsMap.WARN;
@@ -155,7 +155,9 @@ logger.useLogger = function (value) {
  * Parameters passed after message are used applied to
  * the message with utils.format()
  */
-logger.log   = function(message) { logWithArgs("LOG",   arguments); };
+logger.log = function (message) {
+    logWithArgs("LOG", arguments);
+};
 
 /**
  * Logs a message at the ERROR level.
@@ -163,7 +165,9 @@ logger.log   = function(message) { logWithArgs("LOG",   arguments); };
  * Parameters passed after message are used applied to
  * the message with utils.format()
  */
-logger.error = function(message) { logWithArgs("ERROR", arguments); };
+logger.error = function (message) {
+    logWithArgs("ERROR", arguments);
+};
 
 /**
  * Logs a message at the WARN level.
@@ -171,7 +175,9 @@ logger.error = function(message) { logWithArgs("ERROR", arguments); };
  * Parameters passed after message are used applied to
  * the message with utils.format()
  */
-logger.warn  = function(message) { logWithArgs("WARN",  arguments); };
+logger.warn = function (message) {
+    logWithArgs("WARN", arguments);
+};
 
 /**
  * Logs a message at the INFO level.
@@ -179,7 +185,9 @@ logger.warn  = function(message) { logWithArgs("WARN",  arguments); };
  * Parameters passed after message are used applied to
  * the message with utils.format()
  */
-logger.info  = function(message) { logWithArgs("INFO",  arguments); };
+logger.info = function (message) {
+    logWithArgs("INFO", arguments);
+};
 
 /**
  * Logs a message at the DEBUG level.
@@ -187,7 +195,9 @@ logger.info  = function(message) { logWithArgs("INFO",  arguments); };
  * Parameters passed after message are used applied to
  * the message with utils.format()
  */
-logger.debug = function(message) { logWithArgs("DEBUG", arguments); };
+logger.debug = function (message) {
+    logWithArgs("DEBUG", arguments);
+};
 
 // log at the specified level with args
 function logWithArgs(level, args) {
@@ -197,7 +207,7 @@ function logWithArgs(level, args) {
 
 // return the correct formatString for an object
 function formatStringForMessage(message) {
-    return (typeof message === "string") ? "" : "%o"; 
+    return (typeof message === "string") ? "" : "%o";
 }
 
 /**
@@ -206,15 +216,15 @@ function formatStringForMessage(message) {
  * Parameters passed after message are used applied to
  * the message with utils.format()
  */
-logger.logLevel = function(level /* , ... */) {
+logger.logLevel = function (level /* , ... */) {
     // format the message with the parameters
     var formatArgs = [].slice.call(arguments, 1);
     var fmtString = formatStringForMessage(formatArgs[0]);
-    if (fmtString.length > 0){
+    if (fmtString.length > 0) {
         formatArgs.unshift(fmtString); // add formatString
     }
 
-    var message    = logger.format.apply(logger.format, formatArgs);
+    var message = logger.format.apply(logger.format, formatArgs);
 
     if (LevelsMap[level] === null) {
         throw new Error("invalid logging level: " + level);
@@ -242,11 +252,21 @@ logger.logLevel = function(level /* , ... */) {
 
         // log to the console
         switch (level) {
-            case logger.LOG:   originalConsole.log(message); break;
-            case logger.ERROR: originalConsole.log("ERROR: " + message); break;
-            case logger.WARN:  originalConsole.log("WARN: "  + message); break;
-            case logger.INFO:  originalConsole.log("INFO: "  + message); break;
-            case logger.DEBUG: originalConsole.log("DEBUG: " + message); break;
+            case logger.LOG:
+                originalConsole.log(message);
+                break;
+            case logger.ERROR:
+                originalConsole.log("ERROR: " + message);
+                break;
+            case logger.WARN:
+                originalConsole.log("WARN: " + message);
+                break;
+            case logger.INFO:
+                originalConsole.log("INFO: " + message);
+                break;
+            case logger.DEBUG:
+                originalConsole.log("DEBUG: " + message);
+                break;
         }
     }
 };
@@ -260,8 +280,8 @@ logger.logLevel = function(level /* , ... */) {
  * for rationale, see FireBug's Console API:
  *    http://getfirebug.com/wiki/index.php/Console_API
  */
-logger.format = function(formatString, args) {
-    return __format(arguments[0], [].slice.call(arguments,1)).join(' ');
+logger.format = function (formatString, args) {
+    return __format(arguments[0], [].slice.call(arguments, 1)).join(' ');
 };
 
 
@@ -288,14 +308,14 @@ function __format(formatString, args) {
         formatString = formatString.toString();
 
     var pattern = /(.*?)%(.)(.*)/;
-    var rest    = formatString;
-    var result  = [];
+    var rest = formatString;
+    var result = [];
 
     while (args.length) {
         var match = pattern.exec(rest);
         if (!match) break;
 
-        var arg   = args.shift();
+        var arg = args.shift();
         rest = match[3];
         result.push(match[1]);
 
@@ -318,10 +338,12 @@ function __format(formatString, args) {
 function __formatted(object, formatChar) {
 
     try {
-        switch(formatChar) {
+        switch (formatChar) {
             case 'j':
-            case 'o': return JSON.stringify(object);
-            case 'c': return '';
+            case 'o':
+                return JSON.stringify(object);
+            case 'c':
+                return '';
         }
     }
     catch (e) {
@@ -338,12 +360,12 @@ function __formatted(object, formatChar) {
 
 //------------------------------------------------------------------------------
 // when deviceready fires, log queued messages
-logger.__onDeviceReady = function() {
+logger.__onDeviceReady = function () {
     if (DeviceReady) return;
 
     DeviceReady = true;
 
-    for (var i=0; i<Queued.length; i++) {
+    for (var i = 0; i < Queued.length; i++) {
         var messageArgs = Queued[i];
         logger.logLevel(messageArgs[0], messageArgs[1]);
     }

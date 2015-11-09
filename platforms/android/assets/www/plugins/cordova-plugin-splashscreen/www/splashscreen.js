@@ -17,15 +17,15 @@ cordova.define("cordova-plugin-splashscreen.SplashScreen", function(require, exp
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 var exec = require('cordova/exec');
 
 var splashscreen = {
-    show:function() {
+    show: function () {
         exec(null, null, "SplashScreen", "show", []);
     },
-    hide:function() {
+    hide: function () {
         exec(null, null, "SplashScreen", "hide", []);
     }
 };

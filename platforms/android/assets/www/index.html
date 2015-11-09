@@ -5,12 +5,13 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title>Pensando o Direito</title>
 
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <!--<link href="lib/ionic/css/ionic.css" rel="stylesheet">-->
+    <!--<link href="css/style.css" rel="stylesheet">-->
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <script src="lib/ng-pdfviewer/lib/compatibility.js"></script>
+    <script src="lib/ng-pdfviewer/lib/pdf.js"></script>
+
     <link href="css/ionic.app.css" rel="stylesheet">
-    -->
 
     <!-- ionic/angularjs js -->
     <script src="lib/ionic/js/ionic.bundle.js"></script>
@@ -18,6 +19,8 @@
     <!-- cordova script (this will be a 404 during development) -->
     <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
     <script src="cordova.js"></script>
+
+    <script src="lib/ng-pdfviewer/ng-pdfviewer.js"></script>
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
@@ -28,6 +31,8 @@
     <script src="js/publicacoes/services/publicacaoService.js"></script>
     <script src="js/publicacoes/controllers/publicacoesController.js"></script>
     <script src="js/publicacoes/controllers/publicacaoController.js"></script>
+    <script src="js/publicacoes/controllers/pdfController.js"></script>
+
 </head>
 
 <body ng-app="pensando" class="platform-android platform-cordova platform-webview">

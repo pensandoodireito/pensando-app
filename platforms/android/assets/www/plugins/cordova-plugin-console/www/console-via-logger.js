@@ -17,12 +17,12 @@ cordova.define("cordova-plugin-console.console", function(require, exports, modu
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
 //------------------------------------------------------------------------------
 
 var logger = require("./logger");
-var utils  = require("cordova/utils");
+var utils = require("cordova/utils");
 
 //------------------------------------------------------------------------------
 // object that we're exporting
@@ -47,7 +47,8 @@ var Timers = {};
 //------------------------------------------------------------------------------
 // used for unimplemented methods
 //------------------------------------------------------------------------------
-function noop() {}
+function noop() {
+}
 
 //------------------------------------------------------------------------------
 // used for unimplemented methods
@@ -65,37 +66,37 @@ console.useLogger = function (value) {
 };
 
 //------------------------------------------------------------------------------
-console.log = function() {
+console.log = function () {
     if (logger.useConsole()) return;
     logger.log.apply(logger, [].slice.call(arguments));
 };
 
 //------------------------------------------------------------------------------
-console.error = function() {
+console.error = function () {
     if (logger.useConsole()) return;
     logger.error.apply(logger, [].slice.call(arguments));
 };
 
 //------------------------------------------------------------------------------
-console.warn = function() {
+console.warn = function () {
     if (logger.useConsole()) return;
     logger.warn.apply(logger, [].slice.call(arguments));
 };
 
 //------------------------------------------------------------------------------
-console.info = function() {
+console.info = function () {
     if (logger.useConsole()) return;
     logger.info.apply(logger, [].slice.call(arguments));
 };
 
 //------------------------------------------------------------------------------
-console.debug = function() {
+console.debug = function () {
     if (logger.useConsole()) return;
     logger.debug.apply(logger, [].slice.call(arguments));
 };
 
 //------------------------------------------------------------------------------
-console.assert = function(expression) {
+console.assert = function (expression) {
     if (expression) return;
 
     var message = logger.format.apply(logger.format, [].slice.call(arguments, 1));
@@ -103,15 +104,16 @@ console.assert = function(expression) {
 };
 
 //------------------------------------------------------------------------------
-console.clear = function() {};
+console.clear = function () {
+};
 
 //------------------------------------------------------------------------------
-console.dir = function(object) {
+console.dir = function (object) {
     console.log("%o", object);
 };
 
 //------------------------------------------------------------------------------
-console.dirxml = function(node) {
+console.dirxml = function (node) {
     console.log(node.innerHTML);
 };
 
@@ -128,12 +130,12 @@ console.groupCollapsed = console.log;
 console.groupEnd = noop;
 
 //------------------------------------------------------------------------------
-console.time = function(name) {
+console.time = function (name) {
     Timers[name] = new Date().valueOf();
 };
 
 //------------------------------------------------------------------------------
-console.timeEnd = function(name) {
+console.timeEnd = function (name) {
     var timeStart = Timers[name];
     if (!timeStart) {
         console.warn("unknown timer: " + name);
@@ -160,7 +162,7 @@ console.count = noop;
 console.exception = console.log;
 
 //------------------------------------------------------------------------------
-console.table = function(data, columns) {
+console.table = function (data, columns) {
     console.log("%o", data);
 };
 
@@ -168,10 +170,16 @@ console.table = function(data, columns) {
 // return a new function that calls both functions passed as args
 //------------------------------------------------------------------------------
 function wrappedOrigCall(orgFunc, newFunc) {
-    return function() {
+    return function () {
         var args = [].slice.call(arguments);
-        try { orgFunc.apply(WinConsole, args); } catch (e) {}
-        try { newFunc.apply(console,    args); } catch (e) {}
+        try {
+            orgFunc.apply(WinConsole, args);
+        } catch (e) {
+        }
+        try {
+            newFunc.apply(console, args);
+        } catch (e) {
+        }
     };
 }
 
