@@ -1,0 +1,46 @@
+<ion-side-menus enable-menu-with-back-views="false">
+    <ion-side-menu-content>
+
+        <ion-nav-bar class="bar-assertive">
+            <ion-nav-back-button>
+            </ion-nav-back-button>
+
+            <ion-nav-buttons side="left">
+                <button class="button button-icon button-assertive ion-navicon" menu-toggle="left">
+                </button>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+        <ion-nav-view name="menuContent"></ion-nav-view>
+    </ion-side-menu-content>
+
+    <ion-side-menu side="left">
+        <ion-header-bar class="pensando bar-assertive">
+            <div class="menu-header-menu-container">
+                <h5>Pensando o Direito</h5>
+            </div>
+        </ion-header-bar>
+        <ion-content>
+            <ion-list>
+                <ion-item menu-close ui-sref="app.publicacoes">
+                    <i class="icon ion-document-text"></i>
+                    <span class="title">Publicações</span>
+                </ion-item>
+                <ion-item menu-close ui-sref="app.debates">
+                    <i class="icon ion-android-chat"></i>
+                    <span class="title">Debates</span>
+                </ion-item>
+                <ion-item menu-close ui-sref="app.noticias">
+                    <i class="icon ion-android-list"></i>
+                    <span class="title">Notícias</span>
+                </ion-item>
+            </ion-list>
+        </ion-content>
+        <ion-footer-bar align-title="left" class="bar-dark">
+            <div class="button-bar-inline">
+                <button menu-close class="button" ui-sref="app.sobre">
+                    <i class="icon ion-ios-information-outline"></i> Sobre
+                </button>
+            </div>
+        </ion-footer-bar>
+    </ion-side-menu>
+</ion-side-menus>

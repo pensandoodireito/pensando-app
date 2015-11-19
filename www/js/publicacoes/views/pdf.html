@@ -1,0 +1,16 @@
+<ion-view view-title="{{publicacao.title}}">
+    <ion-content class="padding">
+        <div class="button-block">
+            <button class="button button-dark button-small rounded" ng-click="prevPage()">Página anterior</button>
+            <button class="button button-dark button-small rounded" ng-click="nextPage()">Próxima página</button>
+        </div>
+        <h5>Página {{currentPage}} de {{totalPages}}</h5>
+        <h6>loaded = {{loaded}}, total = {{total}}, state = {{state}}</h6>
+
+        <div class="item">
+            <pdfviewer src="{{pdfFile}}" on-page-load='pageLoaded(page,total)'
+                       load-progress='loadProgress(loaded, total, state)' id="viewer"></pdfviewer>
+        </div>
+
+    </ion-content>
+</ion-view>
