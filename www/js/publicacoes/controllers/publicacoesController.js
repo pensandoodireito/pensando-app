@@ -3,6 +3,6 @@
  */
 angular.module('pensando.publicacoes')
     .controller('PublicacoesCtrl', function ($scope, publicacoes) {
-        $scope.publicacoes = publicacoes;
+        $scope.publicacoes = publicacoes.data;
     }
 );

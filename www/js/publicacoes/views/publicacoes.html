@@ -1,12 +1,12 @@
 <ion-view view-title="Publicações" class="publicacoes">
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="publicacao in publicacoes" href="#/app/publicacoes/{{publicacao.id}}">
+            <ion-item ng-repeat="publicacao in publicacoes" href="#/app/publicacoes/{{publicacao.ID}}">
                 <div class="publicacao-item">
-                    <div class="volume">Volume {{publicacao.id}}</div>
+                    <div class="volume">Volume {{publicacao.publicacao_volume}}</div>
                     <div class="title">{{publicacao.title}}</div>
-                    <div class="date">Data: {{publicacao.date}}</div>
-                    <div class="coordenacao">Coordenação: {{publicacao.coordenacao}}</div>
+                    <div class="date">Data: {{publicacao.publicacao_data}}</div>
+                    <div class="coordenacao" ng-show="publicacao.publicacao_coordenacao">Coordenação: {{publicacao.publicacao_coordenacao}}</div>
                 </div>
             </ion-item>
         </ion-list>

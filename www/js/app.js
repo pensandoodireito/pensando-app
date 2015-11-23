@@ -69,8 +69,8 @@ angular.module('pensando',
                         controller: 'PublicacoesCtrl',
                         templateUrl: 'js/publicacoes/views/publicacoes.html',
                         resolve: {
-                            publicacoes: function (PublicacoesService) {
-                                return PublicacoesService.getPublicacoes();
+                            publicacoes: function (PublicacaoFactory) {
+                                return PublicacaoFactory.getPublicacoes();
                             }
                         }
                     }
@@ -83,8 +83,8 @@ angular.module('pensando',
                         controller: 'PublicacaoCtrl',
                         templateUrl: 'js/publicacoes/views/publicacao.html',
                         resolve: {
-                            publicacao: function ($stateParams, PublicacoesService) {
-                                return PublicacoesService.getPublicacao($stateParams.publicacaoID);
+                            publicacao: function ($stateParams, PublicacaoFactory) {
+                                return PublicacaoFactory.getPublicacao($stateParams.publicacaoID);
                             }
                         }
                     }

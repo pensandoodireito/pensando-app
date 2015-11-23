@@ -1,11 +1,13 @@
-<ion-view view-title="Volume {{publicacao.id}}" class="publicacao">
+<ion-view view-title="Volume {{publicacao.publicacao_volume}}" class="publicacao">
     <ion-content class="padding">
         <div class="publicacao-item">
-            <div class="volume">Volume {{publicacao.id}}</div>
+            <div class="volume">Volume {{publicacao.publicacao_volume}}</div>
             <div class="title">{{publicacao.title}}</div>
-            <div class="subtitle">{{publicacao.subtitle}}</div>
-            <div class="date">Data: {{publicacao.date}}</div>
-            <div class="coordenacao">Coordenação: {{publicacao.coordenacao}}</div>
+            <div class="subtitle" ng-show="publicacao.subtitle">{{publicacao.subtitle}}</div>
+            <div class="date">Data: {{publicacao.publicacao_data}}</div>
+            <div class="coordenacao" ng-show="publicacao.publicacao_coordenacao">Coordenação:
+                {{publicacao.publicacao_coordenacao}}
+            </div>
         </div>
         <div class="button-bar">
             <button class="button button-small" ng-click="download()" ng-disabled="progress>0">Download</button>
