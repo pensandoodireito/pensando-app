@@ -6,7 +6,9 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
-//var uglify = require('gulp-uglify');
+var uglify = require('gulp-uglify');
+var ngAnnotate = require('gulp-ng-annotate');
+var sourcemaps = require('gulp-sourcemaps');
 
 var paths = {
     sass: ['./scss/**/*.scss'],
@@ -56,7 +58,10 @@ gulp.task('git-check', function (done) {
 
 gulp.task('scripts', function () {
     gulp.src(paths.js)
+        .pipe(sourcemaps.init())
         .pipe(concat('all.js'))
-        //.pipe(uglify())
+        .pipe(ngAnnotate())
+        .pipe(uglify())
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest('./www/'))
 });
