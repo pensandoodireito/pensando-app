@@ -3,7 +3,7 @@
  */
 angular.module('pensando.publicacoes')
     .factory('PublicacoesService', function ($http) {
-        var url = "http://scotchbox/wp-json/posts/?type=publicacao";
+        var url = "http://api-pensando/wp-json/posts/?type=publicacao";
 
         publicacaoFactory = {};
 

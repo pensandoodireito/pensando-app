@@ -55,7 +55,7 @@ angular.module('pensando.publicacoes')
             });
         }
 
-        $scope.FileOpener2 = function () {
+        $scope.open = function () {
             document.addEventListener('deviceready', function () {
                 $cordovaFile.checkFile(cordova.file.externalRootDirectory, $scope.filename)
                     .then(function (success) {
@@ -73,21 +73,6 @@ angular.module('pensando.publicacoes')
             });
         };
 
-        $scope.view = function () {
-
-            if (ionic.Platform.platform() == 'linux') {
-                $state.go('app.pdf', {publicacaoID: $scope.publicacao.id, publicacao: publicacao});
-            } else {
-                document.addEventListener('deviceready', function () {
-                    $cordovaFile.checkFile(cordova.file.externalRootDirectory, $scope.filename)
-                        .then(function (success) {
-                            $state.go('app.pdf', {publicacaoID: $scope.publicacao.id, publicacao: publicacao});
-                        }, function (error) {
-                            alert('arquivo não existe');
-                        });
-                });
-            }
-        };
     }
 )
 ;

@@ -89,19 +89,6 @@ angular.module('pensando',
                         }
                     }
                 }
-            })
-            .state('app.pdf', {
-                url: '/publicacoes/pdf/:publicacaoID',
-                params: {
-                    publicacaoID: null,
-                    publicacao: null
-                },
-                views: {
-                    'menuContent': {
-                        templateUrl: 'js/publicacoes/views/pdf.html',
-                        controller: 'PdfCtrl'
-                    }
-                }
             });
 
 // if none of the above states are matched, use this as the fallback
