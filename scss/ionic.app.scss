@@ -19,30 +19,38 @@ $dark:                            #444 !default;
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 $assertive: #86201d !default;
+$stable: #736d6d !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
 ion-side-menu {
+
+  $menu-header-height: 158px;
+
   ion-header-bar.pensando {
+    &.bar-assertive {
+      background-image: url("../img/menu-header.png");
+      background-size: contain;
+      height: $menu-header-height;
+    }
     div.menu-header-menu-container {
-      h5 {
+      p, h1, h2, h3, h4, h5, h6 {
         color: #fff;
+        font-weight: bold;
+        position: absolute;
+        bottom: 0;
       }
     }
   }
-  ion-content ion-list ion-item.item {
 
-    border: none;
-    color: #736d6d;
+  ion-content#menu-content {
+    top: $menu-header-height;
 
-    .item-content {
-      padding: 15px 49px 15px 15px;
-      .title {
-        margin-left: 10px;
-        font-size: 14px;
-        color: #736d6d;
-      }
+    ion-list ion-item.item {
+
+      border: none;
+      color: $stable;
     }
   }
 
@@ -50,47 +58,30 @@ ion-side-menu {
 
 .publicacoes, .publicacao {
 
-  color: #736d6d;
-
   .publicacao-item {
 
     .volume {
-      font-size: 12px;
+      color: $stable;
       font-weight: bold;
     }
 
     .title {
       color: $assertive;
       font-weight: bold;
-      white-space: normal;
-      margin-bottom: 10px;
     }
 
     .subtitle {
       color: $assertive;
-      font-size: 80%;
-      white-space: normal;
-      margin-top: -10px;
-      margin-bottom: 10px;
     }
 
     .date, .coordenacao {
-      font-size: 12px;
+      color: $stable;
     }
 
   }
 
   .publicacao-description {
-    margin-top: 10px;
-  }
-
-}
-
-.publicacao {
-
-  .publicacao-item {
-    margin-bottom: 10px;
-    border-bottom: 1px solid #b0aaaa;
+    color: $stable;
   }
 
 }

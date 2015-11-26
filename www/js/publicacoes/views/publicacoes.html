@@ -1,13 +1,17 @@
 <ion-view view-title="Publicações" class="publicacoes">
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="publicacao in publicacoes" href="#/app/publicacoes/{{publicacao.ID}}">
-                <div class="publicacao-item">
-                    <div class="volume">Volume {{publicacao.publicacao_volume}}</div>
-                    <div class="title">{{publicacao.title}}</div>
-                    <div class="date">Data: {{publicacao.publicacao_data}}</div>
-                    <div class="coordenacao" ng-show="publicacao.publicacao_coordenacao">Coordenação: {{publicacao.publicacao_coordenacao}}</div>
-                </div>
+            <ion-item class="publicacao-item item-text-wrap item" ng-repeat="publicacao in publicacoes"
+                      href="#/app/publicacoes/{{publicacao.ID}}">
+                <p class="volume">Volume {{publicacao.publicacao_volume}}</p>
+
+                <h2 class="title ">{{publicacao.title}}</h2>
+
+                <p class="date">Data: {{publicacao.publicacao_data}}</p>
+
+                <p class="coordenacao" ng-show="publicacao.publicacao_coordenacao">
+                    Coordenação: {{publicacao.publicacao_coordenacao}}
+                </p>
             </ion-item>
         </ion-list>
     </ion-content>

@@ -16,22 +16,19 @@
     <ion-side-menu side="left">
         <ion-header-bar class="pensando bar-assertive">
             <div class="menu-header-menu-container">
-                <h5>Pensando o Direito</h5>
+                <h5 class="col col-bottom">Pensando o Direito</h5>
             </div>
         </ion-header-bar>
-        <ion-content>
+        <ion-content id="menu-content">
             <ion-list>
-                <ion-item menu-close ui-sref="app.publicacoes">
-                    <i class="icon ion-document-text"></i>
-                    <span class="title">Publicações</span>
+                <ion-item class="item item-icon-left" menu-close ui-sref="app.publicacoes">
+                    <i class="icon ion-document-text"></i> Publicações
                 </ion-item>
-                <ion-item menu-close ui-sref="app.debates">
-                    <i class="icon ion-android-chat"></i>
-                    <span class="title">Debates</span>
+                <ion-item class="item item-icon-left" menu-close ui-sref="app.debates">
+                    <i class="icon ion-android-chat"></i> Debates
                 </ion-item>
-                <ion-item menu-close ui-sref="app.noticias">
-                    <i class="icon ion-android-list"></i>
-                    <span class="title">Notícias</span>
+                <ion-item class="item item-icon-left" menu-close ui-sref="app.noticias">
+                    <i class="icon ion-android-list"></i> Notícias
                 </ion-item>
             </ion-list>
         </ion-content>

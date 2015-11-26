@@ -1,20 +1,38 @@
 <ion-view view-title="Volume {{publicacao.publicacao_volume}}" class="publicacao">
-    <ion-content class="padding">
-        <div class="publicacao-item">
-            <div class="volume">Volume {{publicacao.publicacao_volume}}</div>
-            <div class="title">{{publicacao.title}}</div>
-            <div class="subtitle" ng-show="publicacao.subtitle">{{publicacao.subtitle}}</div>
-            <div class="date">Data: {{publicacao.publicacao_data}}</div>
-            <div class="coordenacao" ng-show="publicacao.publicacao_coordenacao">Coordenação:
-                {{publicacao.publicacao_coordenacao}}
+    <ion-content>
+
+        <div class="list card publicacao-item">
+
+            <div class="item item-body">
+                <p class="volume">Volume {{publicacao.publicacao_volume}}</p>
+
+                <h2 class="title">{{publicacao.title}}</h2>
+
+                <h3 class="subtitle" ng-show="publicacao.subtitle">{{publicacao.subtitle}}</h3>
+
+                <p class="date">Data: {{publicacao.publicacao_data}}</p>
+
+                <p class="coordenacao" ng-show="publicacao.publicacao_coordenacao">
+                    Coordenação: {{publicacao.publicacao_coordenacao}}
+                </p>
+
+                <p>{{publicacao.content}}</p>
             </div>
-        </div>
-        <div class="button-bar">
-            <button class="button button-small" ng-click="download()" ng-disabled="progress>0">Download</button>
-            <button class="button button-small" ng-click="open()">Abrir</button>
-        </div>
-        <div class="publicacao-description">
-            {{publicacao.description}}
+
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" ng-click="download()">
+                    <i class="icon ion-code-download"></i>
+                    Baixar
+                </a>
+                <a class="tab-item" ng-click="open()">
+                    <i class="icon ion-document-text"></i>
+                    Abrir
+                </a>
+                <a class="tab-item" href="#">
+                    <i class="icon ion-share"></i>
+                    Compartilhar
+                </a>
+            </div>
         </div>
     </ion-content>
 </ion-view>
