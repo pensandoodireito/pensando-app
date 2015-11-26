@@ -28,7 +28,7 @@ ion-side-menu {
 
   $menu-header-height: 158px;
 
-  ion-header-bar.pensando {
+  ion-header-bar#menu-header.pensando {
     &.bar-assertive {
       background-image: url("../img/menu-header.png");
       background-size: contain;

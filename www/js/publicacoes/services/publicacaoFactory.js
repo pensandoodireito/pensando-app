@@ -17,6 +17,7 @@ angular.module('pensando.publicacoes')
         publicacaoFactory.publicacoes = null;
 
         publicacaoFactory.getPublicacoes = function () {
+            return {};
             return $http.get(baseUrl, config);
         };
 
