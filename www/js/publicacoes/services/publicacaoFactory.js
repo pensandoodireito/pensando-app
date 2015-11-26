@@ -4,7 +4,7 @@
 
 angular.module('pensando.publicacoes')
     .factory('PublicacaoFactory', function ($http) {
-        var baseUrl = "http://scotchbox/wp-json/posts/";
+        var baseUrl = "http://api-pensando/wp-json/posts/";
 
         var config = {
             params: {
