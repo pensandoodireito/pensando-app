@@ -30,6 +30,7 @@ ion-side-menu {
 
   ion-header-bar#menu-header.pensando {
     &.bar-assertive {
+      top: 0;
       background-image: url("../img/menu-header.png");
       background-size: contain;
       height: $menu-header-height;
