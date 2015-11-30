@@ -3,7 +3,7 @@
  */
 
 angular.module('pensando.publicacoes')
-    .factory('PublicacaoFactory', function ($http) {
+    .factory('PublicacaoFactory', function ($http, $ionicLoading) {
         var baseUrl = "http://api-pensando/wp-json/posts/";
 
         var config = {
@@ -17,12 +17,14 @@ angular.module('pensando.publicacoes')
         publicacaoFactory.publicacoes = null;
 
         publicacaoFactory.getPublicacoes = function () {
-            return {};
             return $http.get(baseUrl, config);
         };
 
         publicacaoFactory.getPublicacao = function (id) {
-            return $http.get(baseUrl + id);
+            return $http.get(baseUrl + id).then(function (response) {
+                $ionicLoading.hide();
+                return response.data;
+            });
         };
 
         return publicacaoFactory;

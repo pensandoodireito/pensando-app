@@ -2,7 +2,7 @@
     <ion-content>
         <ion-list>
             <ion-item class="publicacao-item item-text-wrap item" ng-repeat="publicacao in publicacoes"
-                      href="#/app/publicacoes/{{publicacao.ID}}">
+                      ng-click="select({{publicacao.ID}})">
                 <p class="volume">Volume {{publicacao.publicacao_volume}}</p>
 
                 <h2 class="title ">{{publicacao.title}}</h2>
