@@ -78,7 +78,9 @@ angular.module('pensando',
                         templateUrl: 'js/publicacoes/views/publicacoes.html',
                         resolve: {
                             publicacoes: function (PublicacaoFactory) {
-                                return PublicacaoFactory.getPublicacoes();
+                                return PublicacaoFactory.getPublicacoes(1, function (response) {
+                                    return response.data;
+                                });
                             }
                         }
                     }

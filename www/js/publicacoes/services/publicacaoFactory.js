@@ -10,10 +10,16 @@ angular.module('pensando.publicacoes')
 
         publicacaoFactory.publicacoes = null;
 
-        publicacaoFactory.getPublicacoes = function () {
-            return $http.get(baseUrl).then(function (response) {
-                $ionicLoading.hide();
-                return response.data;
+        publicacaoFactory.getPublicacoes = function (page, callback) {
+
+            var config = {
+                params: {
+                    page: (page != null && page != undefined ) ? page : 1
+                }
+            };
+
+            return $http.get(baseUrl, config).then(function (response) {
+                return callback(response);
             });
         };
 
