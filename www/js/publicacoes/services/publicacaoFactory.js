@@ -4,20 +4,14 @@
 
 angular.module('pensando.publicacoes')
     .factory('PublicacaoFactory', function ($http, $ionicLoading) {
-        var baseUrl = "http://api-pensando/wp-json/posts/";
-
-        var config = {
-            params: {
-                type: "publicacao"
-            }
-        };
+        var baseUrl = "http://api-pensando/wp-json/publicacoes/";
 
         var publicacaoFactory = {};
 
         publicacaoFactory.publicacoes = null;
 
         publicacaoFactory.getPublicacoes = function () {
-            return $http.get(baseUrl, config);
+            return $http.get(baseUrl);
         };
 
         publicacaoFactory.getPublicacao = function (id) {

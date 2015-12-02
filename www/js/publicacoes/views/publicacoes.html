@@ -3,14 +3,14 @@
         <ion-list>
             <ion-item class="publicacao-item item-text-wrap item" ng-repeat="publicacao in publicacoes"
                       ng-click="select({{publicacao.ID}})">
-                <p class="volume">Volume {{publicacao.publicacao_volume}}</p>
+                <p class="volume">Volume {{publicacao.volume}}</p>
 
                 <h2 class="title ">{{publicacao.title}}</h2>
 
-                <p class="date">Data: {{publicacao.publicacao_data}}</p>
+                <p class="date">Data: {{publicacao.date}}</p>
 
                 <p class="coordenacao" ng-show="publicacao.publicacao_coordenacao">
-                    Coordenação: {{publicacao.publicacao_coordenacao}}
+                    Coordenação: {{publicacao.coordenacao}}
                 </p>
             </ion-item>
         </ion-list>

@@ -1,19 +1,19 @@
-<ion-view view-title="Volume {{publicacao.publicacao_volume}}" class="publicacao">
+<ion-view view-title="Volume {{publicacao.volume}}" class="publicacao">
     <ion-content>
 
         <div class="list card publicacao-item">
 
             <div class="item item-body">
-                <p class="volume">Volume {{publicacao.publicacao_volume}}</p>
+                <p class="volume">Volume {{publicacao.volume}}</p>
 
                 <h2 class="title">{{publicacao.title}}</h2>
 
                 <h3 class="subtitle" ng-show="publicacao.subtitle">{{publicacao.subtitle}}</h3>
 
-                <p class="date">Data: {{publicacao.publicacao_data}}</p>
+                <p class="date">Data: {{publicacao.date}}</p>
 
-                <p class="coordenacao" ng-show="publicacao.publicacao_coordenacao">
-                    Coordenação: {{publicacao.publicacao_coordenacao}}
+                <p class="coordenacao" ng-show="publicacao.coordenacao">
+                    Coordenação: {{publicacao.coordenacao}}
                 </p>
 
                 <p ng-bind-html="publicacao.content"></p>

@@ -6,7 +6,7 @@ angular.module('pensando.publicacoes')
                                             $cordovaFileTransfer, $cordovaFileOpener2,
                                             $cordovaProgress, $state, publicacao, $ionicLoading, $ionicPopup) {
 
-        $scope.publicacao = publicacao.data;
+        $scope.publicacao = publicacao;
 
         $scope.targetPath = null;
 
@@ -17,7 +17,7 @@ angular.module('pensando.publicacoes')
         $scope.download = function () {
 
             document.addEventListener('deviceready', function () {
-                var url = $scope.publicacao.publicacao_url;
+                var url = $scope.publicacao.url;
 
                 $scope.filename = url.split("/").pop();
 

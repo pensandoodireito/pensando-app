@@ -54,6 +54,14 @@ angular.module('pensando',
                     }
                 }
             })
+            .state('app.eventos', {
+                url: '/eventos',
+                views: {
+                    'menuContent': {
+                        templateUrl: 'js/eventos/views/evento.html',
+                    }
+                }
+            })
             .state('app.sobre', {
                 url: '/sobre',
                 views: {
