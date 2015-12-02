@@ -11,7 +11,10 @@ angular.module('pensando.publicacoes')
         publicacaoFactory.publicacoes = null;
 
         publicacaoFactory.getPublicacoes = function () {
-            return $http.get(baseUrl);
+            return $http.get(baseUrl).then(function (response) {
+                $ionicLoading.hide();
+                return response.data;
+            });
         };
 
         publicacaoFactory.getPublicacao = function (id) {

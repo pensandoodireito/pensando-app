@@ -3,7 +3,7 @@
  */
 angular.module('pensando.publicacoes')
     .controller('PublicacoesCtrl', function ($scope, $ionicLoading, $state, publicacoes) {
-        $scope.publicacoes = publicacoes.data;
+        $scope.publicacoes = publicacoes;
 
         $scope.select = function (publicacao) {
             $ionicLoading.show({
