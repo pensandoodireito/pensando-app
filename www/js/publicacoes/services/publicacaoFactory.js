@@ -20,6 +20,8 @@ angular.module('pensando.publicacoes')
 
             return $http.get(baseUrl, config).then(function (response) {
                 return callback(response);
+            }, function (error) {
+                return callback(error)
             });
         };
 

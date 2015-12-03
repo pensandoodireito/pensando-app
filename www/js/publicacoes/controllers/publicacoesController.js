@@ -2,7 +2,7 @@
  * Created by josafa on 03/11/15.
  */
 angular.module('pensando.publicacoes')
-    .controller('PublicacoesCtrl', function ($scope, $ionicLoading, publicacoes, PublicacaoFactory) {
+    .controller('PublicacoesCtrl', function ($scope, $state, $ionicLoading, publicacoes, PublicacaoFactory) {
         $scope.publicacoes = publicacoes;
 
         $scope.currentPage = 1;
