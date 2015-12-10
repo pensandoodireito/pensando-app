@@ -2,15 +2,36 @@
  * Created by josafa on 25/10/15.
  */
 angular.module('pensando.publicacoes')
-    .controller('PublicacaoCtrl', function ($scope) {
+    .controller('PublicacaoCtrl', function ($scope, $stateParams, $ionicLoading, PublicacaoFactory) {
 
         $scope.publicacao = {};
+        //$scope.targetPath = null;
+        //$scope.filename = null;
+        //$scope.progress = 0;
 
-        $scope.targetPath = null;
+        $scope.loadPublicacao = function () {
+            var publicacaoID = $stateParams.publicacaoID;
 
-        $scope.filename = null;
+            console.log(publicacaoID);
 
-        $scope.progress = 0;
+            PublicacaoFactory.getPublicacao(publicacaoID)
+                .then(loadPublicacaoSuccess, loadPublicacaoError);
+        };
+
+        function loadPublicacaoSuccess(response) {
+            console.log('success');
+            $scope.publicacao = response.data;
+            $ionicLoading.hide();
+        }
+
+        function loadPublicacaoError(error) {
+            console.log('error');
+            $ionicLoading.hide();
+            alert("Ocorreu um erro ao carregar a publicação. Tente novamente mais tarde!");
+            console.log(error);
+        }
+
+        $scope.loadPublicacao();
 
         //$scope.download = function () {
         //
