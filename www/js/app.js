@@ -80,13 +80,6 @@ angular.module('pensando',
                     'menuContent': {
                         controller: 'PublicacoesCtrl',
                         templateUrl: 'js/publicacoes/views/publicacoes.html',
-                        resolve: {
-                            publicacoes: function (PublicacaoFactory) {
-                                return PublicacaoFactory.getPublicacoes(1, function (response) {
-                                    return response.data;
-                                });
-                            }
-                        }
                     }
                 }
             })
@@ -96,11 +89,6 @@ angular.module('pensando',
                     'menuContent': {
                         controller: 'PublicacaoCtrl',
                         templateUrl: 'js/publicacoes/views/publicacao.html',
-                        resolve: {
-                            publicacao: function ($stateParams, PublicacaoFactory) {
-                                return PublicacaoFactory.getPublicacao($stateParams.publicacaoID);
-                            }
-                        }
                     }
                 }
             });

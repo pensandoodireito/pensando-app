@@ -3,36 +3,27 @@
  */
 
 angular.module('pensando.publicacoes')
-    .factory('PublicacaoFactory', function ($http, $ionicLoading) {
+    .factory('PublicacaoFactory', function ($http) {
         var baseUrl = "http://api-pensando/wp-json/publicacoes/";
 
         var publicacaoFactory = {};
 
         publicacaoFactory.publicacoes = null;
 
-        publicacaoFactory.getPublicacoes = function (page, callback) {
-
+        publicacaoFactory.getPublicacoes = function (page) {
             var config = {
                 params: {
                     page: (page != null && page != undefined ) ? page : 1
                 }
             };
 
-            return $http.get(baseUrl, config).then(function (response) {
-                return callback(response);
-            }, function (error) {
-                return callback(error)
-            });
+            return $http.get(baseUrl, config);
         };
 
         publicacaoFactory.getPublicacao = function (id) {
-            return $http.get(baseUrl + id).then(function (response) {
-                $ionicLoading.hide();
-                return response.data;
-            });
+            return $http.get(baseUrl + id);
         };
 
         return publicacaoFactory;
-
     }
 );
