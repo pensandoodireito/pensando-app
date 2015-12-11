@@ -20,15 +20,15 @@
             </div>
 
             <div class="item tabs tabs-secondary tabs-icon-left">
-                <a class="tab-item" ng-click="download()">
-                    <i class="icon ion-code-download"></i>
-                    Baixar
-                </a>
-                <a class="tab-item" ng-click="open()">
+                <a class="tab-item" ng-click="download()" ng-hide="fileexists">
                     <i class="icon ion-document-text"></i>
                     Abrir
                 </a>
-                <a class="tab-item" href="#">
+                <a class="tab-item" ng-click="open()" ng-show="fileexists">
+                    <i class="icon ion-document-text"></i>
+                    Abrir
+                </a>
+                <a class="tab-item" href="share()">
                     <i class="icon ion-share"></i>
                     Compartilhar
                 </a>
