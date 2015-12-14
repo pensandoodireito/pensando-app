@@ -1,7 +1,7 @@
 /**
  * Created by josafa on 25/10/15.
  */
-angular.module('pensando.authcontroller', [])
+angular.module('pensando.common')
 
     .controller('AuthCtrl', function ($scope, $ionicModal, $timeout) {
 

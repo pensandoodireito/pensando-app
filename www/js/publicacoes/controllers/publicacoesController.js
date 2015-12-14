@@ -32,7 +32,7 @@ angular.module('pensando.publicacoes')
             $scope.$broadcast('scroll.infiniteScrollComplete');
             $scope.hasNextPage = false;
             alert("Ocorreu um erro ao carregar as publicações. Tente novamente mais tarde!");
-            console.log(error);
+            console.log(JSON.stringify(error));
         }
 
         $scope.loadMore();
