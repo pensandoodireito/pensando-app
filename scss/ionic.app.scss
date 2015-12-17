@@ -21,8 +21,14 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 $assertive: #86201d !default;
 $stable: #736d6d !default;
 
+$padding-40: 40px;
+
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
+
+.padding-40 {
+  padding: $padding-40;
+}
 
 ion-side-menu {
 
@@ -85,4 +91,16 @@ ion-side-menu {
     color: $stable;
   }
 
+}
+
+.sobre {
+  &.list {
+    .item {
+      border: none;
+    }
+
+    .item.divider {
+      border-top: #ddd 1px solid;
+    }
+  }
 }
