@@ -2,7 +2,8 @@
  * Created by josafa on 25/10/15.
  */
 angular.module('pensando.publicacoes')
-    .controller('PublicacaoCtrl', function ($scope, $stateParams, $ionicLoading, $ionicPopup, $timeout, $cordovaFile, $cordovaFileTransfer, $cordovaFileOpener2, PublicacaoFactory) {
+    .controller('PublicacaoCtrl', function ($scope, $stateParams, $ionicLoading, $ionicPopup, $timeout, $cordovaFile,
+                                            $cordovaFileTransfer, $cordovaFileOpener2, $cordovaSocialSharing, PublicacaoFactory) {
 
         $scope.publicacao = {};
         $scope.fileexists = false;
@@ -115,7 +116,7 @@ angular.module('pensando.publicacoes')
             function downloadError(error) {
                 $ionicLoading.hide();
                 $ionicPopup.alert({
-                    title: 'Erro!',
+                    title: 'Falha ao baixar publicação!',
                     template: 'Ocorreu um erro ao efetuar o download da publicação',
                     okType: "button-assertive"
                 });
@@ -153,14 +154,31 @@ angular.module('pensando.publicacoes')
                 console.error(error);
             }
 
+            /**
+             * funções relativas ao compartilhamento da publicação
+             */
+            $scope.share = function () {
+                var title = "Pensando o Direito - Volume " + $scope.publicacao.volume;
+                var message = title + "\n" + $scope.publicacao.title;
+                var link = $scope.publicacao.link;
+
+                $cordovaSocialSharing.share(message, title, null, link)
+                    .then(shareSuccess, shareError);
+            };
+
+            function shareSuccess(result) {
+                console.log(JSON.stringify(result));
+            }
+
+            function shareError(error) {
+                $ionicPopup.alert({
+                    title: 'Falha ao compartilhar a publicação!',
+                    template: 'Ocorreu um erro enquanto tentávamos compartilhar sua publicação.',
+                    okType: "button-assertive"
+                });
+                console.error(error);
+            }
+
         });
-
-
-        /**
-         * funções relativas ao compartilhamento da publicação
-         */
-        $scope.share = function () {
-            console.warn("TODO: implementar...");
-        };
 
     });
