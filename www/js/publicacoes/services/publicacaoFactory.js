@@ -4,7 +4,14 @@
 
 angular.module('pensando.publicacoes')
     .factory('PublicacaoFactory', function ($http) {
-        var baseUrl = "http://api-pensando/wp-json/publicacoes/";
+        var baseUrl = "http://pensando.mj.gov.br/wp-json/";
+
+        if (!(ionic.Platform.isIOS() || ionic.Platform.isAndroid())) {
+            baseUrl = "http://api-pensando/wp-json/";
+        }
+        var endpoint = "publicacoes/";
+
+        var url = baseUrl + endpoint;
 
         var publicacaoFactory = {};
 
@@ -17,11 +24,11 @@ angular.module('pensando.publicacoes')
                 }
             };
 
-            return $http.get(baseUrl, config);
+            return $http.get(url, config);
         };
 
         publicacaoFactory.getPublicacao = function (id) {
-            return $http.get(baseUrl + id);
+            return $http.get(url + id);
         };
 
         return publicacaoFactory;

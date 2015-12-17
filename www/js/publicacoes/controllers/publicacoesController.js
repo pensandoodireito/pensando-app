@@ -2,7 +2,7 @@
  * Created by josafa on 03/11/15.
  */
 angular.module('pensando.publicacoes')
-    .controller('PublicacoesCtrl', function ($scope, $state, $ionicLoading, PublicacaoFactory) {
+    .controller('PublicacoesCtrl', function ($scope, $state, $ionicLoading, $ionicPopup, PublicacaoFactory) {
         $scope.publicacoes = [];
         $scope.currentPage = 0;
         $scope.hasNextPage = true;
@@ -29,12 +29,14 @@ angular.module('pensando.publicacoes')
         }
 
         function loadMoreError(error) {
-            $scope.$broadcast('scroll.infiniteScrollComplete');
             $scope.hasNextPage = false;
-            alert("Ocorreu um erro ao carregar as publicações. Tente novamente mais tarde!");
-            console.log(JSON.stringify(error));
+            $scope.$broadcast('scroll.infiniteScrollComplete');
+            $ionicPopup.alert({
+                title: 'Falha ao carregar publicações!',
+                template: "Ocorreu um erro ao carregar as publicações. Tente novamente mais tarde!",
+                okType: "button-assertive"
+            });
+            console.error(JSON.stringify(error));
         }
-
-        $scope.loadMore();
     }
 );

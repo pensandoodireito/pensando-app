@@ -31,7 +31,7 @@ gulp.task('sass', function (done) {
         .on('end', done);
 });
 
-gulp.task('watch', function () {
+gulp.task('watch', ['sass','scripts'], function () {
     gulp.watch(paths.sass, ['sass']);
     gulp.watch(paths.js, ['scripts']);
 });

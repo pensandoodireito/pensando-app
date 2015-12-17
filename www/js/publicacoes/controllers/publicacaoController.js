@@ -26,7 +26,8 @@ angular.module('pensando.publicacoes')
             $ionicLoading.hide();
             $ionicPopup.alert({
                 title: 'Falha ao carregar publicação!',
-                template: "Ocorreu um erro ao carregar a publicação. Tente novamente mais tarde!"
+                template: "Ocorreu um erro ao carregar a publicação. Tente novamente mais tarde!",
+                okType: "button-assertive"
             });
             console.log(error);
         }
@@ -47,7 +48,8 @@ angular.module('pensando.publicacoes')
                 } else {
                     $ionicPopup.alert({
                         title: 'Falha ao fazer download do arquivo!',
-                        template: 'Plataforma não suportada o arquivo não será baixado.'
+                        template: 'Plataforma não suportada o arquivo não será baixado.',
+                        okType: "button-assertive"
                     });
                 }
             };
@@ -114,15 +116,16 @@ angular.module('pensando.publicacoes')
                 $ionicLoading.hide();
                 $ionicPopup.alert({
                     title: 'Erro!',
-                    template: 'Ocorreu um erro ao efetuar o download da publicação'
+                    template: 'Ocorreu um erro ao efetuar o download da publicação',
+                    okType: "button-assertive"
                 });
-                console.log(error);
+                console.error(error);
             }
 
             function downloadProgress(progress) {
                 $timeout(function () {
                     $scope.progress = (progress.loaded / progress.total) * 100;
-                    console.log($scope.progress);
+                    console.info($scope.progress);
                 });
             }
 
@@ -144,9 +147,10 @@ angular.module('pensando.publicacoes')
             function openPublicacaoError(error) {
                 $ionicPopup.alert({
                     title: 'Erro!',
-                    template: 'Ocorreu um erro ao abrir o arquivo'
+                    template: 'Ocorreu um erro ao abrir o arquivo',
+                    okType: "button-assertive"
                 });
-                console.log(error);
+                console.error(error);
             }
 
         });
@@ -156,7 +160,7 @@ angular.module('pensando.publicacoes')
          * funções relativas ao compartilhamento da publicação
          */
         $scope.share = function () {
-            console.log("TODO: implementar...");
+            console.warn("TODO: implementar...");
         };
 
     });
