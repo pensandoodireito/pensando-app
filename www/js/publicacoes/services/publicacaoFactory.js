@@ -40,7 +40,7 @@ angular.module('pensando.publicacoes')
                 return false;
             }
 
-            return "volume-" + publicacao.volume + ".pdf";
+            return "volume-" + publicacao.volume + "-" + publicacao.ID + ".pdf";
         };
 
         publicacaoFactory.getPublicacaoFullPath = function (publicacao) {

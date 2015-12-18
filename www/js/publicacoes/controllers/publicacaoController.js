@@ -87,6 +87,7 @@ angular.module('pensando.publicacoes')
                     template: 'Ocorreu um erro ao tentar abrir sua publicação. \n Tente novamente mais tarde.',
                     okType: "button-assertive"
                 });
+                console.error(JSON.stringify($scope.publicacao));
                 console.error(JSON.stringify(error));
             }
 
