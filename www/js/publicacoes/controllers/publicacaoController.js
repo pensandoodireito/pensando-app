@@ -2,11 +2,11 @@
  * Created by josafa on 25/10/15.
  */
 angular.module('pensando.publicacoes')
-    .controller('PublicacaoCtrl', function ($scope, $stateParams, $ionicLoading, $ionicPopup, $timeout, $cordovaFile,
-                                            $cordovaFileTransfer, $cordovaFileOpener2, $cordovaSocialSharing, PublicacaoFactory) {
+    .controller('PublicacaoCtrl', function ($scope, $stateParams, $ionicLoading, $ionicPopup, $timeout,
+                                            $cordovaSocialSharing, PublicacaoFactory) {
 
         $scope.publicacao = {};
-        $scope.fileexists = false;
+        $scope.progress = 0;
 
         /**
          * funções relativas ao carregamento dos dados da publicação
@@ -30,7 +30,7 @@ angular.module('pensando.publicacoes')
                 template: "Ocorreu um erro ao carregar a publicação. Tente novamente mais tarde!",
                 okType: "button-assertive"
             });
-            console.log(error);
+            console.error(JSON.stringify(error));
         }
 
         $scope.loadPublicacao();
@@ -38,64 +38,22 @@ angular.module('pensando.publicacoes')
         document.addEventListener('deviceready', function () {
 
             /**
-             * funções relativas ao download da publicação
+             * funções relativas a abertura do arquivo PDF
              */
-            $scope.download = function () {
-                var dir = getPublicacaoDir();
-                var filename = getPublicacaoFilename();
-
-                if (dir && filename) {
-                    checkFile(dir, filename, fileAlreadyExists, fileNeedsDownload);
+            $scope.open = function () {
+                if (PublicacaoFactory.isValid($scope.publicacao)) {
+                    PublicacaoFactory.isDownloaded($scope.publicacao, openPublicacao, downloadArquivoPublicacao);
                 } else {
-                    $ionicPopup.alert({
-                        title: 'Falha ao fazer download do arquivo!',
-                        template: 'Plataforma não suportada o arquivo não será baixado.',
-                        okType: "button-assertive"
-                    });
+                    openError({message: "publicação inválida", object: $scope.publicacao});
                 }
             };
 
-            function checkFile(dir, filename, onSuccess, onError) {
-                $cordovaFile.checkFile(dir, filename).then(onSuccess, onError);
+            function openPublicacao(data) {
+                PublicacaoFactory.open($scope.publicacao, openPublicacaoSucess, openError);
             }
 
-            function getPublicacaoDir() {
-                var pub_path = "pensando/publicacoes/";
-
-                if (ionic.Platform.isAndroid()) {
-                    return cordova.file.externalRootDirectory + pub_path;
-                } else if (ionic.Platform.isIOS()) {
-                    return cordova.file.documentsDirectory + pub_path;
-                }
-
-                return null;
-            }
-
-            function getPublicacaoFilename() {
-                if ($scope.publicacao && $scope.publicacao.volume) {
-                    return "volume-" + $scope.publicacao.volume + ".pdf";
-                }
-
-                return null;
-            }
-
-            function getPublicacaoFullPath() {
-                var dir = getPublicacaoDir();
-
-                if (dir) {
-                    return dir + getPublicacaoFilename();
-                }
-
-                return null;
-            }
-
-            function fileAlreadyExists(data) {
-                $scope.fileexists = true;
-                openPublicacao();
-            }
-
-            function fileNeedsDownload(error) {
-                downloadArquivoPublicacao();
+            function openPublicacaoSucess(data) {
+                //nothing to do
             }
 
             function downloadArquivoPublicacao() {
@@ -103,24 +61,17 @@ angular.module('pensando.publicacoes')
                     template: 'Baixando publicação...'
                 });
 
-                $cordovaFileTransfer.download($scope.publicacao.url, getPublicacaoFullPath(), {}, true)
-                    .then(downloadSuccess, downloadError, downloadProgress);
+                PublicacaoFactory.download($scope.publicacao, downloadSuccess, downloadError, downloadProgress);
             }
 
             function downloadSuccess(data) {
                 $ionicLoading.hide();
-                $scope.fileexists = true;
                 openPublicacao();
             }
 
             function downloadError(error) {
                 $ionicLoading.hide();
-                $ionicPopup.alert({
-                    title: 'Falha ao baixar publicação!',
-                    template: 'Ocorreu um erro ao efetuar o download da publicação',
-                    okType: "button-assertive"
-                });
-                console.error(error);
+                openError(error);
             }
 
             function downloadProgress(progress) {
@@ -130,28 +81,13 @@ angular.module('pensando.publicacoes')
                 });
             }
 
-            /**
-             * funções relativas a abertura do arquivo PDF
-             */
-            $scope.open = function () {
-                checkFile(getPublicacaoDir(), getPublicacaoFilename(), openPublicacao, openPublicacaoError);
-            };
-
-            function openPublicacao(data) {
-                $cordovaFileOpener2.open(getPublicacaoFullPath(), 'application/pdf').then(openPublicacaoSucess, openPublicacaoError);
-            }
-
-            function openPublicacaoSucess(data) {
-                //nothing to do
-            }
-
-            function openPublicacaoError(error) {
+            function openError(error) {
                 $ionicPopup.alert({
-                    title: 'Erro!',
-                    template: 'Ocorreu um erro ao abrir o arquivo',
+                    title: 'Erro ao tentar abrir a publicação!',
+                    template: 'Ocorreu um erro ao tentar abrir sua publicação. \n Tente novamente mais tarde.',
                     okType: "button-assertive"
                 });
-                console.error(error);
+                console.error(JSON.stringify(error));
             }
 
             /**
@@ -176,9 +112,8 @@ angular.module('pensando.publicacoes')
                     template: 'Ocorreu um erro enquanto tentávamos compartilhar sua publicação.',
                     okType: "button-assertive"
                 });
-                console.error(error);
+                console.error(JSON.stringify(error));
             }
-
         });
 
     });
