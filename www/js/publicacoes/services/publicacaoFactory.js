@@ -3,90 +3,123 @@
  */
 
 angular.module('pensando.publicacoes')
-    .factory('PublicacaoFactory', function ($http, $cordovaFile, $cordovaFileTransfer, $cordovaFileOpener2) {
+    .factory('PublicacaoFactory', function ($http, FileService) {
+
         var baseUrl = "http://pensando.mj.gov.br/wp-json/";
+        var endpoint = "publicacoes/";
+        var storageRelativePath = "pensando/publicacoes/";
 
         if (!(ionic.Platform.isIOS() || ionic.Platform.isAndroid())) {
             baseUrl = "http://api-pensando/wp-json/";
         }
-        var endpoint = "publicacoes/";
 
         var url = baseUrl + endpoint;
 
         var publicacaoFactory = {};
 
-        publicacaoFactory.publicacoes = [];
-
         publicacaoFactory.getPublicacoes = function (page) {
             var config = {
+                transformResponse: appendTransform($http.defaults.transformResponse, publicacoesTransform),
                 params: {
                     page: page || 1
                 }
             };
 
             return $http.get(url, config);
-        };
+        }
+        ;
 
         publicacaoFactory.getPublicacao = function (id) {
-            return $http.get(url + id);
+            var config = {
+                transformResponse: appendTransform($http.defaults.transformResponse, publicacaoTransform),
+            };
+            return $http.get(url + id, config);
         };
 
-        publicacaoFactory.isValid = function (publicacao) {
-            return publicacao && publicacao.volume;
+        publicacaoFactory.getPublicacoesDir = function () {
+            return FileService.getStorageDir() + storageRelativePath;
+
         };
 
-        publicacaoFactory.getPublicacaoFilename = function (publicacao) {
-            if (!publicacaoFactory.isValid(publicacao)) {
+        function appendTransform(defaults, transform) {
+            defaults = angular.isArray(defaults) ? defaults : [defaults];
+
+            return defaults.concat(transform);
+        }
+
+        function publicacaoTransform(publicacaoraw) {
+            return new Publicacao(publicacaoraw);
+        }
+
+        function publicacoesTransform(publicacoesraw) {
+            var publicacoes = [];
+
+            publicacoesraw.forEach(function (publicacaoraw) {
+                var publicacao = new Publicacao(publicacaoraw);
+                publicacoes.push(publicacao);
+            });
+
+            return publicacoes;
+        }
+
+        var Publicacao = function (json) {
+            this.id = json.ID || null;
+            this.url = json.url || null;
+            this.title = json.title || null;
+            this.subtitle = json.subtitle || null;
+            this.content = json.content || null;
+            this.coordenacao = json.coordenacao || null;
+            this.date = json.date || null;
+            this.slug = json.slug || null;
+            this.link = json.link || null;
+            this.volume = json.volume || null;
+            this.featured_image = json.featured_image || null;
+            this.meta = json.meta || null;
+            this.isDownloaded = false;
+
+            this.prepare();
+        };
+
+        Publicacao.prototype.prepare = function () {
+
+            if (!this.isValid()) {
                 return false;
             }
 
-            return "volume-" + publicacao.volume + "-" + publicacao.ID + ".pdf";
+            this.checkFile(this.setDownloaded, this.setDownloaded);
         };
 
-        publicacaoFactory.getPublicacaoFullPath = function (publicacao) {
-            if (!publicacaoFactory.isValid(publicacao)) {
+        Publicacao.prototype.setDownloaded = function (isDownloaded) {
+            this.isDownloaded = isDownloaded;
+        };
+
+        Publicacao.prototype.isValid = function () {
+            return true && this.volume;
+        };
+
+        Publicacao.prototype.getFilename = function () {
+            if (!this.isValid()) {
                 return false;
             }
 
-            return publicacaoFactory.getPublicacoesDir() + publicacaoFactory.getPublicacaoFilename(publicacao);
+            return "volume-" + this.volume + "-" + this.id + ".pdf";
         };
 
-        document.addEventListener('deviceready', function () {
+        Publicacao.prototype.getFullPath = function () {
+            if (!this.isValid()) {
+                return false;
+            }
 
-            publicacaoFactory.isDownloaded = function (publicacao, onExists, onMisses) {
-                if (!publicacaoFactory.isValid(publicacao)) {
-                    return false;
-                }
+            return publicacaoFactory.getPublicacoesDir() + this.getFilename();
+        };
 
-                var dir = publicacaoFactory.getPublicacoesDir();
-                var filename = publicacaoFactory.getPublicacaoFilename(publicacao);
-
-                $cordovaFile.checkFile(dir, filename).then(onExists, onMisses);
-            };
-
-            publicacaoFactory.getPublicacoesDir = function () {
-                var pub_path = "pensando/publicacoes/";
-
-                if (ionic.Platform.isAndroid()) {
-                    return cordova.file.externalRootDirectory + pub_path;
-                } else if (ionic.Platform.isIOS()) {
-                    return cordova.file.documentsDirectory + pub_path;
-                }
-
-                return null;
-            };
-
-            publicacaoFactory.download = function (publicacao, onSuccess, onError, onProgress) {
-                $cordovaFileTransfer.download(publicacao.url, publicacaoFactory.getPublicacaoFullPath(publicacao), {}, true)
-                    .then(onSuccess, onError, onProgress);
-            };
-
-            publicacaoFactory.open = function (publicacao, onSuccess, onError) {
-                $cordovaFileOpener2.open(publicacaoFactory.getPublicacaoFullPath(publicacao), 'application/pdf')
-                    .then(onSuccess, onError);
-            };
-
-        });
+        Publicacao.prototype.checkFile = function (onSuccess, onFailure) {
+            FileService.exists(this.getFullPath(), function () {
+                onSuccess(true)
+            }, function () {
+                onFailure(false)
+            });
+        };
 
         return publicacaoFactory;
     });

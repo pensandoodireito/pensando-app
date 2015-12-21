@@ -3,7 +3,7 @@
  */
 angular.module('pensando.publicacoes')
     .controller('PublicacaoCtrl', function ($scope, $stateParams, $ionicLoading, $ionicPopup, $timeout,
-                                            $cordovaSocialSharing, PublicacaoFactory) {
+                                            $cordovaSocialSharing, FileService, PublicacaoFactory) {
 
         $scope.publicacao = {};
         $scope.progress = 0;
@@ -14,8 +14,7 @@ angular.module('pensando.publicacoes')
         $scope.loadPublicacao = function () {
             var publicacaoID = $stateParams.publicacaoID;
 
-            PublicacaoFactory.getPublicacao(publicacaoID)
-                .then(loadPublicacaoSuccess, loadPublicacaoError);
+            PublicacaoFactory.getPublicacao(publicacaoID).then(loadPublicacaoSuccess, loadPublicacaoError);
         };
 
         function loadPublicacaoSuccess(response) {
@@ -41,15 +40,15 @@ angular.module('pensando.publicacoes')
              * funções relativas a abertura do arquivo PDF
              */
             $scope.open = function () {
-                if (PublicacaoFactory.isValid($scope.publicacao)) {
-                    PublicacaoFactory.isDownloaded($scope.publicacao, openPublicacao, downloadArquivoPublicacao);
+                if ($scope.publicacao.isValid()) {
+                    $scope.publicacao.checkFile(openPublicacao, downloadArquivoPublicacao);
                 } else {
                     openError({message: "publicação inválida", object: $scope.publicacao});
                 }
             };
 
             function openPublicacao(data) {
-                PublicacaoFactory.open($scope.publicacao, openPublicacaoSucess, openError);
+                FileService.open($scope.publicacao, openPublicacaoSucess, openError);
             }
 
             function openPublicacaoSucess(data) {
@@ -61,7 +60,7 @@ angular.module('pensando.publicacoes')
                     template: 'Baixando publicação...'
                 });
 
-                PublicacaoFactory.download($scope.publicacao, downloadSuccess, downloadError, downloadProgress);
+                FileService.download($scope.publicacao.url, $scope.publicacao.getFullPath(), downloadSuccess, downloadError, downloadProgress);
             }
 
             function downloadSuccess(data) {
@@ -77,7 +76,7 @@ angular.module('pensando.publicacoes')
             function downloadProgress(progress) {
                 $timeout(function () {
                     $scope.progress = (progress.loaded / progress.total) * 100;
-                    console.info($scope.progress);
+                    console.log($scope.progress);
                 });
             }
 

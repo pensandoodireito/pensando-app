@@ -1,8 +1,9 @@
 <ion-view view-title="Publicações" class="publicacoes">
     <ion-content>
         <ion-list>
-            <ion-item class="publicacao-item item-text-wrap item" ng-repeat="publicacao in publicacoes"
-                      ng-click="select({{publicacao.ID}})">
+            <ion-item class="publicacao-item item-text-wrap item item-button-right"
+                      collection-repeat="publicacao in publicacoes"
+                      ng-click="select(publicacao)">
                 <p class="volume">Volume {{publicacao.volume}}</p>
 
                 <h2 class="title ">{{publicacao.title}}</h2>
@@ -12,6 +13,14 @@
                 <p class="coordenacao" ng-show="publicacao.publicacao_coordenacao">
                     Coordenação: {{publicacao.coordenacao}}
                 </p>
+                <button ng-if="publicacao.isDownloaded" ng-click="open(publicacao); $event.stopPropagation();"
+                        class="button button-small button-calm icon-left ion-checkmark-circled action open">
+                    Abrir
+                </button>
+                <button ng-if="!publicacao.isDownloaded" ng-click="download(publicacao); $event.stopPropagation();"
+                        class="button button-small button-royal icon-left ion-android-download action download">
+                    Baixar
+                </button>
             </ion-item>
         </ion-list>
         <ion-infinite-scroll ng-if="hasNextPage" on-infinite="loadMore()" distance="1%">

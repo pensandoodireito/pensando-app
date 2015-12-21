@@ -11,12 +11,20 @@ angular.module('pensando.publicacoes')
             $ionicLoading.show({
                 template: 'Carregando publicação...'
             });
-            $state.go('app.publicacao', {publicacaoID: publicacao});
+            $state.go('app.publicacao', {publicacaoID: publicacao.id, publicacao: publicacao});
         };
 
         $scope.loadMore = function () {
             PublicacaoFactory.getPublicacoes(++$scope.currentPage)
                 .then(loadMoreSuccess, loadMoreError);
+        };
+
+        $scope.open = function (publicacao) {
+            console.log("abrir...");
+        };
+
+        $scope.download = function (publicacao) {
+            console.log("download...");
         };
 
         function loadMoreSuccess(response) {
@@ -38,5 +46,4 @@ angular.module('pensando.publicacoes')
             });
             console.error(JSON.stringify(error));
         }
-    }
-);
+    });

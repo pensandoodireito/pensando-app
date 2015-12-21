@@ -19,7 +19,12 @@ $dark:                            #444 !default;
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 $assertive: #86201d !default;
+$positive: #015325 !default;
+$calm: #B9E5CA !default;
+$balanced: #FDE1B2 !default;
+$energized: #5D3C07 !default;
 $stable: #736d6d !default;
+$royal: #D6D6D6 !default;
 
 $padding-40: 40px;
 
@@ -85,6 +90,21 @@ ion-side-menu {
       color: $stable;
     }
 
+    $dark-button: #070707;
+
+    .button.action {
+      font-size: $button-small-font-size;
+      font-weight: bold;
+
+      &.open {
+        color: $positive;
+      }
+
+      &.download {
+        color: $dark-button;
+      }
+    }
+
   }
 
   .publicacao-description {
@@ -100,7 +120,7 @@ ion-side-menu {
     }
 
     .item.divider {
-      border-top: #ddd 1px solid;
+      border-top: $royal 1px solid;
     }
   }
 }
