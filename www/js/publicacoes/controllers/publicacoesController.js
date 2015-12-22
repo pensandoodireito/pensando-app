@@ -2,7 +2,7 @@
  * Created by josafa on 03/11/15.
  */
 angular.module('pensando.publicacoes')
-    .controller('PublicacoesCtrl', function ($scope, $state, $ionicLoading, $ionicPopup, PublicacaoFactory) {
+    .controller('PublicacoesCtrl', function ($scope, $state, $ionicLoading, $ionicPopup, FileService, PublicacaoFactory) {
         $scope.publicacoes = [];
         $scope.currentPage = 0;
         $scope.hasNextPage = true;
@@ -11,7 +11,7 @@ angular.module('pensando.publicacoes')
             $ionicLoading.show({
                 template: 'Carregando publicação...'
             });
-            $state.go('app.publicacao', {publicacaoID: publicacao.id, publicacao: publicacao});
+            $state.go('app.publicacao', {publicacaoID: publicacao.id});
         };
 
         $scope.loadMore = function () {
@@ -19,31 +19,40 @@ angular.module('pensando.publicacoes')
                 .then(loadMoreSuccess, loadMoreError);
         };
 
-        $scope.open = function (publicacao) {
-            console.log("abrir...");
-        };
+        //$scope.open = function (publicacao) {
+        //    publicacao.open(openSuccess, openError);
+        //};
+        //
+        //$scope.download = function (publicacao) {
+        //    publicacao.download();
+        //};
 
-        $scope.download = function (publicacao) {
-            console.log("download...");
-        };
-
-        function loadMoreSuccess(response) {
+        function loadMoreSuccess(publicacoes) {
             $scope.$broadcast('scroll.infiniteScrollComplete');
-            $scope.publicacoes = $scope.publicacoes.concat(response.data);
-
-            if (response.data.length == 0) {
-                $scope.hasNextPage = false;
-            }
+            $scope.publicacoes = publicacoes;
         }
 
         function loadMoreError(error) {
             $scope.hasNextPage = false;
             $scope.$broadcast('scroll.infiniteScrollComplete');
-            $ionicPopup.alert({
-                title: 'Falha ao carregar publicações!',
-                template: "Ocorreu um erro ao carregar as publicações. Tente novamente mais tarde!",
+            alert('Falha ao carregar publicações!', "Ocorreu um erro ao carregar as publicações. Tente novamente mais tarde!");
+            console.error(JSON.stringify(error));
+        }
+
+        function openSuccess(data) {
+            //nothing to do
+        }
+
+        function openError(error) {
+            alert('Erro ao tentar abrir a publicação!', 'Ocorreu um erro ao tentar abrir sua publicação. \n Tente novamente mais tarde.');
+            console.error(JSON.stringify(error));
+        }
+
+        function alert(title, text) {
+            return $ionicPopup.alert({
+                title: title,
+                template: text,
                 okType: "button-assertive"
             });
-            console.error(JSON.stringify(error));
         }
     });

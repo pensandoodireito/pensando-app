@@ -3,7 +3,9 @@
  */
 
 angular.module('pensando.publicacoes')
-    .factory('PublicacaoFactory', function ($http, FileService) {
+    .factory('PublicacaoFactory', function ($http, $cordovaSocialSharing, FileService) {
+
+        var publicacoes = [];
 
         var baseUrl = "http://pensando.mj.gov.br/wp-json/";
         var endpoint = "publicacoes/";
@@ -25,15 +27,20 @@ angular.module('pensando.publicacoes')
                 }
             };
 
-            return $http.get(url, config);
+            return $http.get(url, config).then(function (response) {
+                publicacoes = publicacoes.concat(response.data);
+                return publicacoes;
+            });
         }
         ;
 
         publicacaoFactory.getPublicacao = function (id) {
-            var config = {
-                transformResponse: appendTransform($http.defaults.transformResponse, publicacaoTransform),
-            };
-            return $http.get(url + id, config);
+            for (var i = 0; i < publicacoes.length; i++) {
+                if (publicacoes[i].id == id) {
+                    return publicacoes[i];
+                }
+            }
+            return null;
         };
 
         publicacaoFactory.getPublicacoesDir = function () {
@@ -81,7 +88,6 @@ angular.module('pensando.publicacoes')
         };
 
         Publicacao.prototype.prepare = function () {
-
             if (!this.isValid()) {
                 return false;
             }
@@ -114,11 +120,34 @@ angular.module('pensando.publicacoes')
         };
 
         Publicacao.prototype.checkFile = function (onSuccess, onFailure) {
-            FileService.exists(this.getFullPath(), function () {
-                onSuccess(true)
-            }, function () {
-                onFailure(false)
-            });
+            var _self = this;
+            FileService.exists(publicacaoFactory.getPublicacoesDir(), this.getFilename(),
+                function (arg) {
+                    onSuccess(true)
+                }, function (arg) {
+                    onFailure(false)
+                });
+        };
+
+        Publicacao.prototype.open = function (onSuccess, onFailure) {
+            FileService.open(this.getFullPath(), "application/pdf", onSuccess, onFailure);
+        };
+
+        Publicacao.prototype.download = function (onSuccess, onFailure, onProgress) {
+            var _self = this;
+
+            FileService.download(this.url, this.getFullPath(), function (args) {
+                _self.setDownloaded(true);
+                onSuccess(args);
+            }, onFailure, onProgress);
+        };
+
+        Publicacao.prototype.share = function (onSuccess, onFailure) {
+            var title = "Pensando o Direito - Volume " + this.volume;
+            var message = title + "\n" + this.title;
+            var link = this.link;
+
+            $cordovaSocialSharing.share(message, title, null, link).then(onSuccess, onFailure);
         };
 
         return publicacaoFactory;

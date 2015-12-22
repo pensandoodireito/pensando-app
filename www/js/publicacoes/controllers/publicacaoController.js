@@ -2,8 +2,8 @@
  * Created by josafa on 25/10/15.
  */
 angular.module('pensando.publicacoes')
-    .controller('PublicacaoCtrl', function ($scope, $stateParams, $ionicLoading, $ionicPopup, $timeout,
-                                            $cordovaSocialSharing, FileService, PublicacaoFactory) {
+    .controller('PublicacaoCtrl', function ($scope, $stateParams, $ionicLoading, $ionicPopup, $ionicHistory, $timeout,
+                                            FileService, PublicacaoFactory) {
 
         $scope.publicacao = {};
         $scope.progress = 0;
@@ -14,106 +14,96 @@ angular.module('pensando.publicacoes')
         $scope.loadPublicacao = function () {
             var publicacaoID = $stateParams.publicacaoID;
 
-            PublicacaoFactory.getPublicacao(publicacaoID).then(loadPublicacaoSuccess, loadPublicacaoError);
+            $scope.publicacao = PublicacaoFactory.getPublicacao(publicacaoID);
+
+            $ionicLoading.hide();
+            if (!$scope.publicacao) {
+                loadError();
+            }
         };
 
-        function loadPublicacaoSuccess(response) {
-            $scope.publicacao = response.data;
-            $ionicLoading.hide();
-        }
+        /**
+         * funções relativas a abertura do arquivo PDF
+         */
+        $scope.open = function () {
+            if ($scope.publicacao.isValid()) {
+                $scope.publicacao.checkFile(openPublicacao, downloadArquivoPublicacao);
+            } else {
+                openError({message: "publicação inválida", object: $scope.publicacao});
+            }
+        };
 
-        function loadPublicacaoError(error) {
-            $ionicLoading.hide();
-            $ionicPopup.alert({
-                title: 'Falha ao carregar publicação!',
-                template: "Ocorreu um erro ao carregar a publicação. Tente novamente mais tarde!",
-                okType: "button-assertive"
-            });
-            console.error(JSON.stringify(error));
-        }
+        /**
+         * funções relativas ao compartilhamento da publicação
+         */
+        $scope.share = function () {
+            $scope.publicacao.share(shareSuccess, shareError);
+        };
 
         $scope.loadPublicacao();
 
-        document.addEventListener('deviceready', function () {
+        function loadError() {
+            var alert = alert('Falha ao carregar publicação!', "Ocorreu um erro ao carregar a publicação.\nTente novamente mais tarde!");
 
-            /**
-             * funções relativas a abertura do arquivo PDF
-             */
-            $scope.open = function () {
-                if ($scope.publicacao.isValid()) {
-                    $scope.publicacao.checkFile(openPublicacao, downloadArquivoPublicacao);
-                } else {
-                    openError({message: "publicação inválida", object: $scope.publicacao});
-                }
-            };
+            alert.then(function () {
+                $ionicHistory.goBack();
+            });
+        }
 
-            function openPublicacao(data) {
-                FileService.open($scope.publicacao, openPublicacaoSucess, openError);
-            }
 
-            function openPublicacaoSucess(data) {
-                //nothing to do
-            }
+        function openPublicacao(data) {
+            $scope.publicacao.open(openPublicacaoSucess, openError);
+        }
 
-            function downloadArquivoPublicacao() {
-                $ionicLoading.show({
-                    template: 'Baixando publicação...'
-                });
+        function openPublicacaoSucess(data) {
+            //nothing to do
+        }
 
-                FileService.download($scope.publicacao.url, $scope.publicacao.getFullPath(), downloadSuccess, downloadError, downloadProgress);
-            }
+        function downloadArquivoPublicacao() {
+            $ionicLoading.show({
+                template: 'Baixando publicação...'
+            });
 
-            function downloadSuccess(data) {
-                $ionicLoading.hide();
-                openPublicacao();
-            }
+            $scope.publicacao.download(downloadSuccess, downloadError, downloadProgress);
+        }
 
-            function downloadError(error) {
-                $ionicLoading.hide();
-                openError(error);
-            }
+        function downloadSuccess(data) {
+            $ionicLoading.hide();
+            openPublicacao();
+        }
 
-            function downloadProgress(progress) {
-                $timeout(function () {
-                    $scope.progress = (progress.loaded / progress.total) * 100;
-                    console.log($scope.progress);
-                });
-            }
+        function downloadError(error) {
+            $ionicLoading.hide();
+            openError(error);
+        }
 
-            function openError(error) {
-                $ionicPopup.alert({
-                    title: 'Erro ao tentar abrir a publicação!',
-                    template: 'Ocorreu um erro ao tentar abrir sua publicação. \n Tente novamente mais tarde.',
-                    okType: "button-assertive"
-                });
-                console.error(JSON.stringify($scope.publicacao));
-                console.error(JSON.stringify(error));
-            }
+        function downloadProgress(progress) {
+            $timeout(function () {
+                $scope.progress = (progress.loaded / progress.total) * 100;
+                console.log($scope.progress);
+            });
+        }
 
-            /**
-             * funções relativas ao compartilhamento da publicação
-             */
-            $scope.share = function () {
-                var title = "Pensando o Direito - Volume " + $scope.publicacao.volume;
-                var message = title + "\n" + $scope.publicacao.title;
-                var link = $scope.publicacao.link;
+        function openError(error) {
+            alert('Erro ao tentar abrir a publicação!', 'Ocorreu um erro ao tentar abrir sua publicação.\nTente novamente mais tarde.');
+            console.error(JSON.stringify(error));
+        }
 
-                $cordovaSocialSharing.share(message, title, null, link)
-                    .then(shareSuccess, shareError);
-            };
+        function shareSuccess(result) {
+            console.log(JSON.stringify(result));
+        }
 
-            function shareSuccess(result) {
-                console.log(JSON.stringify(result));
-            }
+        function shareError(error) {
+            console.error(JSON.stringify(error));
+            alert('Falha ao compartilhar a publicação!', 'Ocorreu um erro enquanto tentávamos compartilhar sua publicação.');
+        }
 
-            function shareError(error) {
-                $ionicPopup.alert({
-                    title: 'Falha ao compartilhar a publicação!',
-                    template: 'Ocorreu um erro enquanto tentávamos compartilhar sua publicação.',
-                    okType: "button-assertive"
-                });
-                console.error(JSON.stringify(error));
-            }
-        });
+        function alert(title, text) {
+            return $ionicPopup.alert({
+                title: title,
+                template: text,
+                okType: "button-assertive"
+            });
+        }
 
     });
