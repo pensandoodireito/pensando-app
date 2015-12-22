@@ -95,6 +95,9 @@ ion-side-menu {
     .button.action {
       font-size: $button-small-font-size;
       font-weight: bold;
+      width: 64.75px;
+      top: 50%;
+      transform: translateY(-50%);
 
       &.open {
         color: $positive;

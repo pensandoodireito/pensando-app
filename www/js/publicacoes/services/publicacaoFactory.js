@@ -54,10 +54,6 @@ angular.module('pensando.publicacoes')
             return defaults.concat(transform);
         }
 
-        function publicacaoTransform(publicacaoraw) {
-            return new Publicacao(publicacaoraw);
-        }
-
         function publicacoesTransform(publicacoesraw) {
             var publicacoes = [];
 
@@ -92,7 +88,7 @@ angular.module('pensando.publicacoes')
                 return false;
             }
 
-            this.checkFile(this.setDownloaded, this.setDownloaded);
+            this.checkFile();
         };
 
         Publicacao.prototype.setDownloaded = function (isDownloaded) {
@@ -123,9 +119,11 @@ angular.module('pensando.publicacoes')
             var _self = this;
             FileService.exists(publicacaoFactory.getPublicacoesDir(), this.getFilename(),
                 function (arg) {
-                    onSuccess(true)
+                    _self.setDownloaded(true);
+                    onSuccess(arg)
                 }, function (arg) {
-                    onFailure(false)
+                    _self.setDownloaded(false);
+                    onFailure(arg)
                 });
         };
 
