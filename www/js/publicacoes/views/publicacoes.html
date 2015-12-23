@@ -2,7 +2,7 @@
     <ion-content>
         <ion-list>
             <ion-item class="publicacao-item item-text-wrap item item-button-right"
-                      collection-repeat="publicacao in publicacoes"
+                      ng-repeat="publicacao in publicacoes"
                       ng-click="select(publicacao)">
                 <p class="volume">Volume {{publicacao.volume}}</p>
 
