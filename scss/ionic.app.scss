@@ -72,6 +72,10 @@ ion-side-menu {
 
   .publicacao-item {
 
+    &.item-button-right {
+      padding-right: 95px;
+    }
+
     .volume {
       color: $stable;
       font-weight: bold;
@@ -126,10 +130,6 @@ ion-side-menu {
             }
           }
         }
-      }
-
-      &.item-button-right {
-        padding-right: 85px;
       }
     }
   }
