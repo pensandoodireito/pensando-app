@@ -107,6 +107,25 @@ ion-side-menu {
         &.download {
           color: $dark-button;
         }
+
+        &.error {
+          color: $energized;
+        }
+
+        &.downloading {
+
+          .spinner {
+
+            transform: translateX(100%);
+
+            svg {
+              width: 16px;
+              height: 16px;
+              stroke: $dark-button;
+              fill: $dark-button;
+            }
+          }
+        }
       }
 
       &.item-button-right {

@@ -65,6 +65,13 @@ angular.module('pensando.publicacoes')
             return publicacoes;
         }
 
+        var DownloadStatus = {
+            Error: "Error",
+            Downloading: "Downloading",
+            Complete: "Complete",
+            Default: "Default"
+        };
+
         var Publicacao = function (json) {
             this.id = json.ID || null;
             this.url = json.url || null;
@@ -79,6 +86,7 @@ angular.module('pensando.publicacoes')
             this.featured_image = json.featured_image || null;
             this.meta = json.meta || null;
             this.isDownloaded = false;
+            this.downloadStatus = DownloadStatus.Default;
 
             this.prepare();
         };
@@ -93,6 +101,26 @@ angular.module('pensando.publicacoes')
 
         Publicacao.prototype.setDownloaded = function (isDownloaded) {
             this.isDownloaded = isDownloaded;
+        };
+
+        Publicacao.prototype.setDownloadStatus = function (status) {
+            this.downloadStatus = status;
+        };
+
+        Publicacao.prototype.isDownloading = function () {
+            return this.downloadStatus == DownloadStatus.Downloading;
+        };
+
+        Publicacao.prototype.isComplete = function () {
+            return this.downloadStatus == DownloadStatus.Complete;
+        };
+
+        Publicacao.prototype.isIdle = function () {
+            return this.downloadStatus == DownloadStatus.Default;
+        };
+
+        Publicacao.prototype.hasError = function () {
+            return this.downloadStatus == DownloadStatus.Error;
         };
 
         Publicacao.prototype.isValid = function () {
@@ -134,10 +162,17 @@ angular.module('pensando.publicacoes')
         Publicacao.prototype.download = function (onSuccess, onFailure, onProgress) {
             var _self = this;
 
-            FileService.download(this.url, this.getFullPath(), function (args) {
-                _self.setDownloaded(true);
-                onSuccess(args);
-            }, onFailure, onProgress);
+            _self.setDownloadStatus(DownloadStatus.Downloading);
+
+            FileService.download(this.url, this.getFullPath(),
+                function (args) {
+                    _self.setDownloaded(true);
+                    _self.setDownloadStatus(DownloadStatus.Complete);
+                    onSuccess(args);
+                }, function (args) {
+                    _self.setDownloadStatus(DownloadStatus.Error);
+                    onFailure(args);
+                }, onProgress);
         };
 
         Publicacao.prototype.share = function (onSuccess, onFailure) {

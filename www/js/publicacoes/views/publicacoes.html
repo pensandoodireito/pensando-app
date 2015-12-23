@@ -17,9 +17,20 @@
                         class="button button-small button-calm icon-left ion-checkmark-circled action open">
                     Abrir
                 </button>
-                <button ng-if="!publicacao.isDownloaded" ng-click="download(publicacao); $event.stopPropagation();"
+                <button ng-if="!publicacao.isDownloaded && publicacao.isIdle()"
+                        ng-click="download(publicacao); $event.stopPropagation();"
                         class="button button-small button-royal icon-left ion-android-download action download">
                     Baixar
+                </button>
+                <button ng-if="!publicacao.isDownloaded && publicacao.hasError()"
+                        ng-click="download(publicacao); $event.stopPropagation();"
+                        class="button button-small button-balanced icon-left ion-alert-circled action error">
+                    Erro!
+                </button>
+                <button ng-if="!publicacao.isDownloaded && publicacao.isDownloading()"
+                        ng-click="$event.stopPropagation();"
+                        class="button button-small button-royal icon-left action downloading">
+                    <ion-spinner></ion-spinner>
                 </button>
             </ion-item>
         </ion-list>

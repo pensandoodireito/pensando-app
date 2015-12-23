@@ -19,13 +19,13 @@ angular.module('pensando.publicacoes')
                 .then(loadMoreSuccess, loadMoreError);
         };
 
-        //$scope.open = function (publicacao) {
-        //    publicacao.open(openSuccess, openError);
-        //};
-        //
-        //$scope.download = function (publicacao) {
-        //    publicacao.download();
-        //};
+        $scope.open = function (publicacao) {
+            publicacao.open(openSuccess, openError);
+        };
+
+        $scope.download = function (publicacao) {
+            publicacao.download();
+        };
 
         function loadMoreSuccess(publicacoes) {
             $scope.$broadcast('scroll.infiniteScrollComplete');
