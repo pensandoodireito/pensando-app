@@ -1,6 +1,6 @@
 {
   "name": "pensando",
-  "version": "0.0.1",
+  "version": "1.0.0-beta",
   "description": "Pensando o Direito",
   "dependencies": {
     "gulp": "^3.5.6",
