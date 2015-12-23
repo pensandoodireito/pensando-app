@@ -92,22 +92,27 @@ ion-side-menu {
 
     $dark-button: #070707;
 
-    .button.action {
-      font-size: $button-small-font-size;
-      font-weight: bold;
-      width: 64.75px;
-      top: 50%;
-      transform: translateY(-50%);
+    .button {
+      &.action {
+        font-size: $button-small-font-size;
+        font-weight: bold;
+        width: 64.75px;
+        top: 50%;
+        transform: translateY(-50%);
 
-      &.open {
-        color: $positive;
+        &.open {
+          color: $positive;
+        }
+
+        &.download {
+          color: $dark-button;
+        }
       }
 
-      &.download {
-        color: $dark-button;
+      &.item-button-right {
+        padding-right: 85px;
       }
     }
-
   }
 
   .publicacao-description {
