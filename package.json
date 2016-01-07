@@ -28,7 +28,8 @@
     "cordova-plugin-file-transfer",
     "cordova-plugin-file",
     "cordova-plugin-file-opener2",
-    "cordova-plugin-x-socialsharing"
+    "cordova-plugin-x-socialsharing",
+    "org.apache.cordova.inappbrowser"
   ],
   "cordovaPlatforms": [
     "android",
