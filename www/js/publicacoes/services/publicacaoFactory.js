@@ -11,9 +11,9 @@ angular.module('pensando.publicacoes')
         var endpoint = "publicacoes/";
         var storageRelativePath = "pensando/publicacoes/";
 
-        if (!(ionic.Platform.isIOS() || ionic.Platform.isAndroid())) {
+        //if (!(ionic.Platform.isIOS() || ionic.Platform.isAndroid())) {
             baseUrl = "http://api-pensando/wp-json/";
-        }
+        //}
 
         var url = baseUrl + endpoint;
 
@@ -85,6 +85,7 @@ angular.module('pensando.publicacoes')
             this.volume = json.volume || null;
             this.featured_image = json.featured_image || null;
             this.meta = json.meta || null;
+            this.fileSize = json.file_size || 0;
             this.isDownloaded = false;
             this.downloadStatus = DownloadStatus.Default;
 
@@ -133,6 +134,11 @@ angular.module('pensando.publicacoes')
             }
 
             return "volume-" + this.volume + "-" + this.id + ".pdf";
+        };
+
+        Publicacao.prototype.getHumanFileSize = function () {
+
+            return Math.round(this.fileSize/1024) + " KB";
         };
 
         Publicacao.prototype.getFullPath = function () {

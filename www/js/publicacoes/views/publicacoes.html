@@ -32,6 +32,9 @@
                         class="button button-small button-royal icon-left action downloading">
                     <ion-spinner></ion-spinner>
                 </button>
+                <p ng-if="!publicacao.isDownloaded" class="size">
+                    ({{publicacao.getHumanFileSize()}})
+                </p>
             </ion-item>
         </ion-list>
         <ion-infinite-scroll ng-if="hasNextPage" on-infinite="loadMore()" distance="1%">
