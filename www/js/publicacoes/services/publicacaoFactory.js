@@ -11,9 +11,9 @@ angular.module('pensando.publicacoes')
         var endpoint = "publicacoes/";
         var storageRelativePath = "pensando/publicacoes/";
 
-        //if (!(ionic.Platform.isIOS() || ionic.Platform.isAndroid())) {
+        if (!(ionic.Platform.isIOS() || ionic.Platform.isAndroid())) {
             baseUrl = "http://api-pensando/wp-json/";
-        //}
+        }
 
         var url = baseUrl + endpoint;
 
@@ -137,8 +137,8 @@ angular.module('pensando.publicacoes')
         };
 
         Publicacao.prototype.getHumanFileSize = function () {
-
-            return Math.round(this.fileSize/1024) + " KB";
+            var size = this.fileSize / 1024 / 1024; //converting bytes to MB
+            return size.toFixed(2).toLocaleString() + " MB";
         };
 
         Publicacao.prototype.getFullPath = function () {
